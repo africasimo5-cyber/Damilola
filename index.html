@@ -296,8 +296,12 @@
     <div class="placeholder" id="placeholder">🌸</div>
   </div>
 
-  <p class="question">Will you be my friend, Damilola?</p>
-  <p class="sub">Think carefully before you answer… 😏</p>
+  <div>
+    <p class="question" id="sub">Will you be my friend, Damilola?</p>
+    <p class="question" id="sub1" style="display: none;" >See fine girl Jooorrr.</p>
+    <p class="sub" id="sub3">Think carefully before you answer… 😏</p>
+    <p class="sub" id="sub2" style="display: none;">Bye Bye... 😏</p>
+  </div>
 
   <div class="counter-wrap" id="counterWrap"></div>
 
@@ -422,9 +426,21 @@ function closePopup() {
   setTimeout(() => {
     const photo = document.getElementById('herPhoto');
     const placeholder = document.getElementById('placeholder');
+    const textre = document.getElementById('sub');
+    const textre3 = document.getElementById('sub3');
+    const textre2 = document.getElementById('sub2');
+    const textshow = document.getElementById('sub1');
+    const textcounter = document.getElementById('counterWrap');
+    const btnre = document.getElementById('btnRow');
     
     placeholder.style.display = 'none';
+    textre.style.display = 'none';
+    textre3.style.display = 'none';
+    textcounter.style.display = 'none';
+    btnre.style.display = 'none';
     photo.style.display = 'block';
+    textre2.style.display = 'block';
+    textshow.style.display = 'block';
     photo.classList.add('photo-reveal');
   }, 400);
 }

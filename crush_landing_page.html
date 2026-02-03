@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>An Important Question 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose:    #f43f5e;
+    --rose-lt: #fda4af;
+    --cream:   #fff5f5;
+    --blush:   #ffe4e6;
+    --deep:    #9f1239;
+    --txt:     #4a2233;
+    --shadow:  0 8px 40px rgba(159,18,57,.18);
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--txt);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ─── Floating Hearts Background ─── */
+  .hearts-bg {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .heart {
+    position: absolute;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 4px rgba(159,18,57,.15));
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: .5; }
+    90%  { opacity: .4; }
+    100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── Card ─── */
+  .card {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 32px;
+    box-shadow: var(--shadow);
+    padding: 48px 44px 52px;
+    max-width: 460px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid var(--blush);
+    animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes popIn {
+    from { transform: scale(.82); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  /* ─── Photo Frame ─── */
+  .photo-frame {
+    width: 160px; height: 160px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    border: 5px solid var(--rose-lt);
+    background: var(--blush);
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(159,18,57,.2);
+    position: relative;
+  }
+  .photo-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* Placeholder silhouette when no image */
+  .photo-frame .placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--blush), var(--rose-lt));
+  }
+  /* little sparkle badge */
+  .photo-frame::after {
+    content: '✨';
+    position: absolute;
+    bottom: 4px; right: 4px;
+    font-size: 1.3rem;
+    background: #fff;
+    border-radius: 50%;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+
+  /* ─── Typography ─── */
+  .question {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .sub {
+    font-size: .95rem;
+    color: #a0616e;
+    margin-bottom: 34px;
+    font-weight: 300;
+  }
+
+  /* ─── No-click counter ─── */
+  .counter-wrap {
+    font-size: .82rem;
+    color: var(--rose-lt);
+    margin-bottom: 18px;
+    min-height: 1.1em;
+    font-weight: 600;
+    letter-spacing: .5px;
+    transition: color .3s;
+  }
+  .counter-wrap.angry { color: var(--rose); }
+
+  /* ─── Buttons ─── */
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    position: relative;
+    min-height: 56px;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 14px 36px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(.94); }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), #fb7185);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(244,63,94,.35);
+  }
+  .btn-yes:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(244,63,94,.45); }
+
+  .btn-no {
+    background: #fff;
+    color: var(--rose);
+    border: 2px solid var(--rose-lt);
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    transition: transform .15s, box-shadow .15s, opacity .3s;
+  }
+  .btn-no:hover { box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+
+  /* shrink & fade No button as clicks go up */
+  .btn-no.shrink-1 { font-size: .95rem; padding: 12px 28px; }
+  .btn-no.shrink-2 { font-size: .82rem; padding: 10px 22px; opacity: .75; }
+  .btn-no.shrink-3 { font-size: .7rem;  padding: 8px 16px;  opacity: .55; }
+  .btn-no.shrink-4 { font-size: .58rem; padding: 6px 12px;  opacity: .35; }
+
+  /* ─── Popup Overlay ─── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(74,34,51,.55);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+
+  .popup {
+    background: #fff;
+    border-radius: 28px;
+    max-width: 420px;
+    width: 90%;
+    padding: 44px 36px 40px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(159,18,57,.25);
+    transform: scale(.85);
+    transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .overlay.show .popup { transform: scale(1); }
+
+  .popup::before {
+    content: '';
+    position: absolute; top: -40px; left: -40px; right: -40px;
+    height: 120px;
+    background: linear-gradient(180deg, var(--blush) 0%, transparent 100%);
+    border-radius: 28px 28px 60% 60%;
+  }
+
+  .popup-emoji { font-size: 3.2rem; margin-bottom: 12px; position: relative; z-index: 1; }
+  .popup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .popup-msg {
+    font-size: .98rem;
+    line-height: 1.7;
+    color: #6b3a4a;
+    font-weight: 400;
+    position: relative; z-index: 1;
+  }
+  .popup-close {
+    margin-top: 28px;
+    display: inline-block;
+    padding: 10px 32px;
+    background: linear-gradient(135deg, var(--rose), #fb7185);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative; z-index: 1;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .popup-close:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(244,63,94,.4); }
+
+  /* ─── Confetti burst (simple) ─── */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 99;
+    animation: confettiFall 2.2s ease-out forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(90vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts layer -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- Main card -->
+<div class="card">
+  <div class="photo-frame">
+    <!-- 👇 Replace src with her actual photo URL / path -->
+    <!-- <img src="her-photo.jpg" alt="Her" /> -->
+    <div class="placeholder">🌸</div>
+  </div>
+
+  <p class="question">Will you be my friend, Damilola?</p>
+  <p class="sub">Think carefully before you answer… 😏</p>
+
+  <div class="counter-wrap" id="counterWrap"></div>
+
+  <div class="btn-row" id="btnRow">
+    <button class="btn btn-yes" onclick="onYes()">Yes ✨</button>
+    <button class="btn btn-no"  id="btnNo"  onclick="onNo(event)">No</button>
+  </div>
+</div>
+
+<!-- Success Popup -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <div class="popup-emoji">💕</div>
+    <div class="popup-title">Yayy, finally!</div>
+    <div class="popup-msg">
+      You have no idea how long I've been waiting to hear that.<br><br>
+      You're honestly one of the most special people in my life —
+      the kind of person who makes even the ordinary moments feel a little brighter.
+      I'm really glad you said yes, because being your friend is one of the best things
+      that's ever happened to me. 🌷<br><br>
+      Let's make a lot of great memories together. 💛
+    </div>
+    <button class="popup-close" onclick="closePopup()">Aww, thank you 🥰</button>
+  </div>
+</div>
+
+<script>
+// ─── Floating Hearts ───────────────────────────────────
+(function spawnHearts() {
+  const bg = document.getElementById('heartsBg');
+  const emojis = ['💗','💖','💝','🌸','✨','💕','🌷'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (6 + Math.random() * 10) + 's';
+    h.style.animationDelay = (Math.random() * 8) + 's';
+    h.style.fontSize = (.8 + Math.random() * 1.4) + 'rem';
+    bg.appendChild(h);
+  }
+})();
+
+// ─── No Button Logic ───────────────────────────────────
+let noPresses = 0;
+const btnNo      = document.getElementById('btnNo');
+const btnRow     = document.getElementById('btnRow');
+const counterEl  = document.getElementById('counterWrap');
+
+const funnyMessages = [
+  "",
+  "Are you sure? 👀",
+  "Hmm… really? 🤔",
+  "You might wanna reconsider…",
+  "Okay but like… are you sure sure?",
+  "Your loss, just saying 😐",
+  "…",
+  "This button is getting tired of you.",
+  "Okay the button is literally running away now.",
+  "It's giving… commitment issues 😂"
+];
+
+function onNo(e) {
+  noPresses++;
+
+  // Update funny text
+  const idx = Math.min(noPresses, funnyMessages.length - 1);
+  counterEl.textContent = funnyMessages[idx];
+  if (noPresses >= 5) counterEl.classList.add('angry');
+
+  // Shrink the No button progressively
+  btnNo.className = 'btn btn-no';
+  if (noPresses >= 2) btnNo.classList.add('shrink-1');
+  if (noPresses >= 4) btnNo.classList.add('shrink-2');
+  if (noPresses >= 6) btnNo.classList.add('shrink-3');
+  if (noPresses >= 8) btnNo.classList.add('shrink-4');
+
+  // Hide it completely after 10 presses
+  if (noPresses >= 10) {
+    btnNo.style.display = 'none';
+    counterEl.textContent = "The No button has left the chat 😂";
+    return;
+  }
+
+  // ── Dodge! ──
+  const row    = btnRow.getBoundingClientRect();
+  const card   = btnNo.closest('.card').getBoundingClientRect();
+  const maxX   = card.width  - 20;
+  const maxY   = card.height - 20;
+
+  // Current position relative to card
+  const curLeft  = btnNo.offsetLeft;
+  const curTop   = btnNo.offsetTop;
+
+  // Pick a random target that's decently far away
+  let newX, newY;
+  for (let i = 0; i < 8; i++) {
+    newX = Math.random() * (maxX - btnNo.offsetWidth);
+    newY = Math.random() * (maxY - btnNo.offsetHeight);
+    if (Math.abs(newX - curLeft) > 60 || Math.abs(newY - curTop) > 40) break;
+  }
+
+  btnNo.style.position = 'absolute';
+  btnNo.style.left     = newX + 'px';
+  btnNo.style.top      = newY + 'px';
+  btnNo.style.transition = 'left .22s cubic-bezier(.34,1.56,.64,1), top .22s cubic-bezier(.34,1.56,.64,1)';
+}
+
+// ─── Yes Button ─────────────────────────────────────────
+function onYes() {
+  launchConfetti();
+  setTimeout(() => {
+    document.getElementById('overlay').classList.add('show');
+  }, 350);
+}
+
+// ─── Close Popup ────────────────────────────────────────
+function closePopup() {
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ─── Confetti ───────────────────────────────────────────
+function launchConfetti() {
+  const colors = ['#f43f5e','#fb7185','#fda4af','#ffd1d5','#fff','#ffe4e6','#9f1239'];
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = (30 + Math.random() * 40) + 'vw';
+    c.style.top  = '0px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width  = (6 + Math.random() * 10) + 'px';
+    c.style.height = (6 + Math.random() * 10) + 'px';
+    c.style.animationDuration = (1.6 + Math.random() * 1.2) + 's';
+    c.style.animationDelay    = (Math.random() * 0.3) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+</script>
+</body>
+</html>

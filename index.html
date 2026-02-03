@@ -266,6 +266,22 @@
     0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(90vh) rotate(720deg); opacity: 0; }
   }
+
+  /* ─── Photo reveal animation ─── */
+  @keyframes photoReveal {
+    from { 
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .photo-reveal {
+    animation: photoReveal 0.6s cubic-bezier(.34,1.56,.64,1) both;
+  }
 </style>
 </head>
 <body>
@@ -276,9 +292,8 @@
 <!-- Main card -->
 <div class="card">
   <div class="photo-frame">
-    <!-- 👇 Replace src with her actual photo URL / path -->
-    <!-- <img src="her-photo.jpg" alt="Her" /> -->
-    <div class="placeholder">🌸</div>
+    <img id="herPhoto" src="dami.jpg" alt="Damilola" style="display: none;" />
+    <div class="placeholder" id="placeholder">🌸</div>
   </div>
 
   <p class="question">Will you be my friend, Damilola?</p>
@@ -402,6 +417,16 @@ function onYes() {
 // ─── Close Popup ────────────────────────────────────────
 function closePopup() {
   document.getElementById('overlay').classList.remove('show');
+  
+  // Show Damilola's photo after closing the popup
+  setTimeout(() => {
+    const photo = document.getElementById('herPhoto');
+    const placeholder = document.getElementById('placeholder');
+    
+    placeholder.style.display = 'none';
+    photo.style.display = 'block';
+    photo.classList.add('photo-reveal');
+  }, 400);
 }
 
 // ─── Confetti ───────────────────────────────────────────
